@@ -1,0 +1,10 @@
+C:\Users\erjon\source\repos\ChallengeAccepted\ChallengeAccepted\bin\Release\ChallengeAccepted.exe.config
+C:\Users\erjon\source\repos\ChallengeAccepted\ChallengeAccepted\bin\Release\ChallengeAccepted.exe
+C:\Users\erjon\source\repos\ChallengeAccepted\ChallengeAccepted\bin\Release\ChallengeAccepted.pdb
+C:\Users\erjon\source\repos\ChallengeAccepted\ChallengeAccepted\bin\Release\Colorful.Console.dll
+C:\Users\erjon\source\repos\ChallengeAccepted\ChallengeAccepted\bin\Release\Leaf.xNet.dll
+C:\Users\erjon\source\repos\ChallengeAccepted\ChallengeAccepted\bin\Release\Leaf.xNet.xml
+C:\Users\erjon\source\repos\ChallengeAccepted\ChallengeAccepted\obj\Release\ChallengeAccepted.csproj.CoreCompileInputs.cache
+C:\Users\erjon\source\repos\ChallengeAccepted\ChallengeAccepted\obj\Release\ChallengeAccepted.csproj.CopyComplete
+C:\Users\erjon\source\repos\ChallengeAccepted\ChallengeAccepted\obj\Release\ChallengeAccepted.exe
+C:\Users\erjon\source\repos\ChallengeAccepted\ChallengeAccepted\obj\Release\ChallengeAccepted.pdb
