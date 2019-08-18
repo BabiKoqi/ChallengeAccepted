@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -43,11 +43,11 @@ namespace ChallengeAccepted
 
 
             Console.Write("Whats Your Desied Domain: ", Color.White);
-            string domain = "https://" + Console.ReadLine();
+            string domain = Console.ReadLine();
 
             Console.Write("Character Length: ", Color.White);
             int charLength = int.Parse(Console.ReadLine());
-            
+
 
             Console.Write("Amount of Threads: ", Color.White);
             int threadAmount = int.Parse(Console.ReadLine());
@@ -77,37 +77,36 @@ namespace ChallengeAccepted
 
                     foreach (var format in fileFormats)
                     {
-                        string url = $"{domain}/{combination}.{format}";
+                        string url = $"https://{domain}/{combination}.{format}";
                         using (HttpRequest httpRequest = new HttpRequest())
                         {
-
                             try
                             {
-
                                 var resp = httpRequest.Get(url);
 
                                 if (resp.StatusCode == HttpStatusCode.OK)
                                 {
                                     Hits++;
-                                    CPM++;
                                     Checkeds++;
                                     Console.WriteLine($"[HIT] {url}", Color.LimeGreen);
                                     valid = true;
                                     File.AppendAllText("Valid-URLs.txt", $"{url}\r\n");
 
                                     if (saveMedia)
-                                        File.WriteAllBytes($"Media/{format}/{combination}.{format}", resp.ToBytes());
+                                        File.WriteAllBytes($@"Media\{format}\{domain.Replace(".", "-")}-{combination}.{format}", resp.ToBytes());
                                 }
                                 Bads++;
                                 break;
                             }
                             catch { }
+
+                            CPM++;
                         }
                     }
 
                     if (!valid)
                     {
-                        Console.WriteLine($"[BAD] {domain}/{combination}", Color.Red);
+                        Console.WriteLine($"[BAD] https://{domain}/{combination}", Color.Red);
                         Bads++;
                         CPM++;
                         Checkeds++;
