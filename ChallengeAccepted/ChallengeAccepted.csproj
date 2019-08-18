@@ -54,6 +54,9 @@
     <Reference Include="Leaf.xNet, Version=5.1.76.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Leaf.xNet.5.1.76\lib\net462\Leaf.xNet.dll</HintPath>
     </Reference>
+    <Reference Include="MlkPwgen, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MlkPwgen.0.3.0\lib\net45\MlkPwgen.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />

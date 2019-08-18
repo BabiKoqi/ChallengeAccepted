@@ -1,12 +1,13 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 using Leaf.xNet;
 using Console = Colorful.Console;
+using Random = System.Random;
+using MlkPwgen;
+using System.Linq;
 
 namespace ChallengeAccepted
 {
@@ -16,10 +17,11 @@ namespace ChallengeAccepted
         {
             List<string> fileFormats = new List<string>()
             {
-                "jpg",
                 "png",
                 "gif",
-                "mp4"
+                "jpg",
+                "mp4",
+                "txt"
             };
 
 
@@ -38,12 +40,16 @@ namespace ChallengeAccepted
 ", Color.Purple);
 
             Directory.CreateDirectory("Media");
-            foreach (var format in fileFormats)
-                Directory.CreateDirectory("Media/" + format);
 
-
-            Console.Write("Whats Your Desied Domain: ", Color.White);
+            Console.Write("What Is Your Desied Domain: ", Color.White);
             string domain = Console.ReadLine();
+
+
+            Directory.CreateDirectory($"Media/{domain}");
+
+            foreach (var format in fileFormats)
+                Directory.CreateDirectory($"Media/{domain}/{format}");
+
 
             Console.Write("Character Length: ", Color.White);
             int charLength = int.Parse(Console.ReadLine());
@@ -53,25 +59,31 @@ namespace ChallengeAccepted
             int threadAmount = int.Parse(Console.ReadLine());
 
 
+            Console.Write("Use MlkPwgen.dll For Generating Combinations? (Y/N): ", Color.White);
+            bool useMlk = Console.ReadLine().ToLower()[0] == 'y';
+
+
             Console.Write("Do You Want To Save The Media? (Y/N): ", Color.White);
             bool saveMedia = Console.ReadLine().ToLower()[0] == 'y';
-            Random rnd = new Random();
-            bool isChecking = true;
-            Task.Factory.StartNew(delegate ()
+
+
+            Task.Factory.StartNew(() =>
             {
-                while (isChecking)
+                while (true)
                 {
                     CPM_aux = CPM * 60;
                     CPM = 0;
                     Thread.Sleep(1000);
-                    Console.Title = $"GayZoon Screenshot Scraper  - Hits: {Hits}  CPM: {CPM_aux}  Bads: {Bads}  Checked: {Checkeds}  (By BabiKoqi & iLinked)";
-
+                    Console.Title = $"GayZoon Screenshot Scraper  - Hits: {Hits}  CPM: {CPM_aux}  Bads: {Bads}  Checked: {Checks}  (By BabiKoqi & iLinked)";
                 }
             });
+
+            Random rnd = new Random();
+
             while (true)
             {
 
-                Parallel.ForEach(GetCombinations(rnd, charLength), new ParallelOptions() { MaxDegreeOfParallelism = threadAmount }, combination =>
+                Parallel.ForEach(GetCombinations(rnd, charLength, useMlk), new ParallelOptions() { MaxDegreeOfParallelism = threadAmount }, combination =>
                 {
                     bool valid = false;
 
@@ -87,13 +99,13 @@ namespace ChallengeAccepted
                                 if (resp.StatusCode == HttpStatusCode.OK)
                                 {
                                     Hits++;
-                                    Checkeds++;
+                                    Checks++;
                                     Console.WriteLine($"[HIT] {url}", Color.LimeGreen);
                                     valid = true;
-                                    File.AppendAllText("Valid-URLs.txt", $"{url}\r\n");
+                                    File.AppendAllText($@"Media\{domain}\Valid-URLs.txt", $"{url}\r\n");
 
                                     if (saveMedia)
-                                        File.WriteAllBytes($@"Media\{format}\{domain.Replace(".", "-")}-{combination}.{format}", resp.ToBytes());
+                                        File.WriteAllBytes($@"Media\{domain}\{format}\{domain.Replace(".", "-")}-{combination}.{format}", resp.ToBytes());
                                 }
                                 Bads++;
                                 break;
@@ -102,26 +114,36 @@ namespace ChallengeAccepted
 
                             CPM++;
                         }
-                    }
 
-                    if (!valid)
-                    {
-                        Console.WriteLine($"[BAD] https://{domain}/{combination}", Color.Red);
-                        Bads++;
-                        CPM++;
-                        Checkeds++;
+                        if (!valid)
+                        {
+                            Console.WriteLine($"[BAD] https://{domain}/{combination}", Color.Red);
+                            Bads++;
+                            CPM++;
+                            Checks++;
+                        }
                     }
                 });
             }
         }
 
 
-        private static List<string> GetCombinations(Random rnd, int length)
+        private static List<string> GetCombinations(Random rnd, int length, bool useMlk)
         {
+            string charSet = "abcdefghijklmnopqrstuvwxyz0123456789";
+
             List<string> combs = new List<string>();
 
             for (int i = 0; i < 1000; i++)
-                combs.Add(GetCombination(rnd, length));
+            {
+                if (useMlk)
+                    PasswordGenerator.Generate(length, charSet);
+                else
+                {
+                    combs.Add(new string(Enumerable.Repeat(charSet, length)
+                                .Select(s => s[rnd.Next(s.Length)]).ToArray()));
+                }
+            }
 
             return combs;
         }
@@ -131,18 +153,10 @@ namespace ChallengeAccepted
 
         public static int Bads = 0;
 
-        public static int Checkeds = 0;
+        public static int Checks = 0;
 
         public static int CPM = 0;
 
         public static int CPM_aux = 0;
-
-
-        private static string GetCombination(Random rnd, int length)
-        {
-            const string chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-            return new string(Enumerable.Repeat(chars, length)
-              .Select(s => s[rnd.Next(s.Length)]).ToArray());
-        }
     }
 }

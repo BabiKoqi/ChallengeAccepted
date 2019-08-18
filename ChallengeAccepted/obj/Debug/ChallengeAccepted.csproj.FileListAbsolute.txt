@@ -19,3 +19,6 @@ C:\Users\erjon\source\repos\ChallengeAccepted\ChallengeAccepted\obj\Debug\Challe
 C:\Users\erjon\source\repos\ChallengeAccepted\ChallengeAccepted\obj\Debug\ChallengeAccepted.csproj.CopyComplete
 C:\Users\erjon\source\repos\ChallengeAccepted\ChallengeAccepted\obj\Debug\ChallengeAccepted.exe
 C:\Users\erjon\source\repos\ChallengeAccepted\ChallengeAccepted\obj\Debug\ChallengeAccepted.pdb
+C:\Users\ilink\source\repos\ChallengeAccepted\ChallengeAccepted\bin\Debug\Colorful.Console.dll
+C:\Users\ilink\source\repos\ChallengeAccepted\ChallengeAccepted\bin\Debug\MlkPwgen.dll
+C:\Users\ilink\source\repos\ChallengeAccepted\ChallengeAccepted\bin\Debug\MlkPwgen.xml
