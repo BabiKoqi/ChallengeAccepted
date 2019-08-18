@@ -21,7 +21,9 @@ namespace ChallengeAccepted
                 "gif",
                 "jpg",
                 "mp4",
-                "txt"
+                "txt",
+                "zip",
+                "rar"
             };
 
 
@@ -41,7 +43,7 @@ namespace ChallengeAccepted
 
             Directory.CreateDirectory("Media");
 
-            Console.Write("What Is Your Desied Domain: ", Color.White);
+            Console.Write("What is Your Desired Domain: ", Color.White);
             string domain = Console.ReadLine();
 
 
@@ -71,10 +73,9 @@ namespace ChallengeAccepted
             {
                 while (true)
                 {
-                    CPM_aux = CPM * 60;
+                    Console.Title = $"GayZoon Screenshot Scraper - Hits: {Hits}  CPM: {CPM * 60}  Bads: {Bads}  Checked: {Checks}  (By BabiKoqi & iLinked)";
                     CPM = 0;
                     Thread.Sleep(1000);
-                    Console.Title = $"GayZoon Screenshot Scraper  - Hits: {Hits}  CPM: {CPM_aux}  Bads: {Bads}  Checked: {Checks}  (By BabiKoqi & iLinked)";
                 }
             });
 
@@ -96,21 +97,18 @@ namespace ChallengeAccepted
                             {
                                 var resp = httpRequest.Get(url);
 
-                                if (resp.StatusCode == HttpStatusCode.OK)
-                                {
-                                    Hits++;
-                                    Checks++;
-                                    Console.WriteLine($"[HIT] {url}", Color.LimeGreen);
-                                    valid = true;
-                                    File.AppendAllText($@"Media\{domain}\Valid-URLs.txt", $"{url}\r\n");
+                                Hits++;
+                                Checks++;
+                                Console.WriteLine($"[HIT] {url}", Color.LimeGreen);
+                                valid = true;
+                                File.AppendAllText($@"Media\{domain}\URLs.txt", $"{url}\r\n");
 
-                                    if (saveMedia)
-                                        File.WriteAllBytes($@"Media\{domain}\{format}\{domain.Replace(".", "-")}-{combination}.{format}", resp.ToBytes());
-                                }
-                                Bads++;
+                                if (saveMedia)
+                                    File.WriteAllBytes($@"Media\{domain}\{format}\{domain.Replace(".", "-")}-{combination}.{format}", resp.ToBytes());
+
                                 break;
                             }
-                            catch { }
+                            catch { Checks++; }
 
                             CPM++;
                         }
@@ -120,7 +118,6 @@ namespace ChallengeAccepted
                             Console.WriteLine($"[BAD] https://{domain}/{combination}", Color.Red);
                             Bads++;
                             CPM++;
-                            Checks++;
                         }
                     }
                 });
@@ -150,13 +147,8 @@ namespace ChallengeAccepted
 
 
         public static int Hits = 0;
-
         public static int Bads = 0;
-
         public static int Checks = 0;
-
         public static int CPM = 0;
-
-        public static int CPM_aux = 0;
     }
 }
