@@ -68,8 +68,8 @@ namespace ChallengeAccepted
             Console.Write("Do You Want To Save The Media? (Y/N): ", Color.White);
             bool saveMedia = Console.ReadLine().ToLower()[0] == 'y';
 
-
-            Task.Factory.StartNew(() =>
+            ThreadPool.SetMinThreads(threadAmount, threadAmount);
+            Task.Run(() =>
             {
                 while (true)
                 {
@@ -125,16 +125,16 @@ namespace ChallengeAccepted
         }
 
 
-        private static List<string> GetCombinations(Random rnd, int length, bool useMlk)
+        private static List<string> GetCombinations(Random rnd, int length, bool useMlk, int amount = 1000)
         {
             string charSet = "abcdefghijklmnopqrstuvwxyz0123456789";
 
             List<string> combs = new List<string>();
 
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < amount; i++)
             {
                 if (useMlk)
-                    PasswordGenerator.Generate(length, charSet);
+                    combs.Add(PasswordGenerator.Generate(length, charSet));
                 else
                 {
                     combs.Add(new string(Enumerable.Repeat(charSet, length)
